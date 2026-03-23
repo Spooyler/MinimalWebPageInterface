@@ -6,31 +6,99 @@
     <title>Web Page Manager</title>
     <link rel="stylesheet" href="style.css">
 </head>
-<body>
+<body class="dark">
+    <!-- Menu bar -->
+    <div class="menu-bar">
+        <div class="menu-item">
+            <button class="menu-btn" onclick="toggleMenu('options-menu', event)">Options</button>
+            <div id="options-menu" class="menu-dropdown hidden">
+                <label class="option-row">
+                    FPS limit:
+                    <select id="fps-select">
+                        <option value="0">Unlimited</option>
+                        <option value="60">60</option>
+                        <option value="30" selected>30</option>
+                        <option value="20">20</option>
+                        <option value="15">15</option>
+                    </select>
+                </label>
+                <label class="option-row">
+                    Theme:
+                    <button id="theme-btn" onclick="toggleTheme()">Light</button>
+                </label>
+                <label class="option-row">
+                    <span>Minimize to tray</span>
+                    <input type="checkbox" id="tray-check" checked onchange="toggleTraySetting()" />
+                </label>
+            </div>
+        </div>
+    </div>
+
     <div class="container">
         <div class="input-bar">
             <label for="url-input">Add New:</label>
             <input type="text" id="url-input" placeholder="webpage" />
             <label class="fullscreen-toggle">
-                <input type="checkbox" id="fullscreen-check" checked />
-                Fullscreen
+                <input type="checkbox" id="fullscreen-check" checked /> Fullscreen
             </label>
             <button id="add-btn" onclick="addUrl()">ADD</button>
+            <button id="save-btn" onclick="savePreset()">SAVE</button>
         </div>
 
         <hr class="separator" />
 
-        <h2 class="section-title">Open windows</h2>
+        <h2 class="section-title" onclick="toggleSection('presets')">
+            <span class="collapse-arrow" id="arrow-presets">&#9660;</span>
+            Presets
+            <button class="edit-btn" id="edit-presets-btn" onclick="togglePresetsEdit(event)">Edit</button>
+        </h2>
+        <div id="section-presets" class="section-body">
+            <div id="presets-grid" class="presets-grid">
+                <p class="empty-msg">No presets saved</p>
+            </div>
+        </div>
 
-        <div id="windows-grid" class="windows-grid">
-            <p id="empty-msg" class="empty-msg">No windows open</p>
+        <hr class="separator" />
+
+        <h2 class="section-title" onclick="toggleSection('windows')">
+            <span class="collapse-arrow" id="arrow-windows">&#9660;</span>
+            Open windows
+        </h2>
+        <div id="section-windows" class="section-body">
+            <div id="windows-grid" class="windows-grid">
+                <p class="empty-msg">No windows open</p>
+            </div>
+        </div>
+
+        <hr class="separator" />
+
+        <h2 class="section-title" onclick="toggleSection('external')">
+            <span class="collapse-arrow" id="arrow-external">&#9660;</span>
+            Mirror external window
+            <button class="refresh-btn" onclick="loadExternalWindows(); event.stopPropagation();">Refresh</button>
+        </h2>
+        <div id="section-external" class="section-body">
+            <div id="ext-windows-list" class="ext-windows-list">
+                <p class="empty-msg">Click Refresh to scan windows</p>
+            </div>
         </div>
     </div>
 
-    <!-- Mirror screen picker modal -->
+    <!-- Screen picker modal (with optional crop) -->
     <div id="mirror-modal" class="modal hidden">
         <div class="modal-content">
             <h3>Mirror to screen</h3>
+            <div class="crop-section">
+                <label class="crop-toggle">
+                    <input type="checkbox" id="crop-enable" onchange="toggleCropFields()" /> Crop region
+                </label>
+                <div id="crop-fields" class="crop-fields hidden">
+                    <input type="number" id="crop-left" placeholder="Left" min="0" />
+                    <input type="number" id="crop-top" placeholder="Top" min="0" />
+                    <input type="number" id="crop-width" placeholder="Width" min="1" />
+                    <input type="number" id="crop-height" placeholder="Height" min="1" />
+                </div>
+            </div>
             <div id="screen-list" class="screen-list"></div>
             <button class="modal-cancel" onclick="closeMirrorModal()">Cancel</button>
         </div>
