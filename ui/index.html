@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Web Page Manager</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <div class="input-bar">
+            <label for="url-input">Add New:</label>
+            <input type="text" id="url-input" placeholder="webpage" />
+            <label class="fullscreen-toggle">
+                <input type="checkbox" id="fullscreen-check" checked />
+                Fullscreen
+            </label>
+            <button id="add-btn" onclick="addUrl()">ADD</button>
+        </div>
+
+        <hr class="separator" />
+
+        <h2 class="section-title">Open windows</h2>
+
+        <div id="windows-grid" class="windows-grid">
+            <p id="empty-msg" class="empty-msg">No windows open</p>
+        </div>
+    </div>
+
+    <!-- Mirror screen picker modal -->
+    <div id="mirror-modal" class="modal hidden">
+        <div class="modal-content">
+            <h3>Mirror to screen</h3>
+            <div id="screen-list" class="screen-list"></div>
+            <button class="modal-cancel" onclick="closeMirrorModal()">Cancel</button>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <span id="stat-cpu">CPU: --</span>
+        <span id="stat-ram">RAM: --</span>
+        <span id="stat-gpu">GPU: --</span>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
