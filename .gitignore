@@ -5,3 +5,5 @@ dist/
 build/
 *.spec
 *.egg-info/
+config.json
+presets.json
