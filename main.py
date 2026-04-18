@@ -7,6 +7,13 @@ from PIL import Image
 from manager import WindowManager
 
 
+def resource_path(relative):
+    """Resolve a bundled resource path. Works for dev and PyInstaller-frozen exe."""
+    if hasattr(sys, "_MEIPASS"):
+        return os.path.join(sys._MEIPASS, relative)
+    return os.path.join(os.path.dirname(os.path.abspath(__file__)), relative)
+
+
 def create_tray_icon(manager, management_window):
     image = Image.new("RGB", (64, 64), color=(80, 140, 200))
 
@@ -55,7 +62,7 @@ def main():
     manager = WindowManager()
     manager._tray_mode = True
 
-    ui_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "ui", "index.html")
+    ui_path = resource_path(os.path.join("ui", "index.html"))
 
     management_window = webview.create_window(
         title="Web Page Manager",

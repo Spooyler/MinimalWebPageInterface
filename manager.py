@@ -7,7 +7,15 @@ import webview
 import psutil
 from mirror import find_hwnd_by_title, get_monitors, MirrorWindow, get_system_windows, bring_to_front
 
-_BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+import sys as _sys
+
+# When running as a PyInstaller exe, store config next to the exe (writable).
+# When running from source, store it next to this file.
+if getattr(_sys, "frozen", False):
+    _BASE_DIR = os.path.dirname(os.path.abspath(_sys.executable))
+else:
+    _BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 _PRESETS_FILE = os.path.join(_BASE_DIR, "presets.json")
 _CONFIG_FILE = os.path.join(_BASE_DIR, "config.json")
 
